@@ -77,7 +77,6 @@ var Core = function( opts ){
     autoungrabify: defVal(false, options.autoungrabify, options.autoungrabifyNodes),
     autounselectify: defVal(false, options.autounselectify),
     styleEnabled: options.styleEnabled === undefined ? head : options.styleEnabled,
-    zorderStrict: defVal(false, options.zorderStrict),
     zoom: is.number(options.zoom) ? options.zoom : 1,
     pan: {
       x: is.plainObject(options.pan) && is.number(options.pan.x) ? options.pan.x : 0,
@@ -238,10 +237,6 @@ util.extend(corefn, {
 
   styleEnabled: function(){
     return this._private.styleEnabled;
-  },
-
-  zorderStrict: function(){
-    return this._private.zorderStrict;
   },
 
   addToPool: function( eles ){

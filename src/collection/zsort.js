@@ -25,18 +25,10 @@ var zIndexSort = function( a, b ){
   if( sameDepth ){
 
     if( aIsNode && bIsEdge ){
-      if( cy.zorderStrict() && zDiff !== 0 ) {
-        return zDiff;  // 'z-index' specified
-      } else {
-        return 1; // 'a' is a node, it should be drawn later
-      }
+      return 1; // 'a' is a node, it should be drawn later
 
     } else if( aIsEdge && bIsNode ){
-      if( cy.zorderStrict() && zDiff !== 0 ) {
-        return zDiff;  // 'z-index' specified
-      } else {
-        return -1; // 'a' is an edge, it should be drawn first
-      }
+      return -1; // 'a' is an edge, it should be drawn first
 
     } else { // both nodes or both edges
       if( zDiff === 0 ){ // same z-index => compare indices in the core (order added to graph w/ last on top)
