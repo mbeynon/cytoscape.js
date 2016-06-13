@@ -6,7 +6,7 @@ For simplicity and ease of use, [specificity rules](http://www.w3.org/TR/css3-se
 
 ## Format
 
-The style specified at [initialisation](#core/initialisation) can be in a function format, in a plain JSON format, or in a string format &mdash; the plain JSON format and string formats being more useful if you want to pull down the style from the server.
+The style specified at [initialisation](#core/initialisation) can be in a function format, in a plain JSON format, or in a string format --- the plain JSON format and string formats being more useful if you want to pull down the style from the server.
 
 
 
@@ -125,6 +125,7 @@ cytoscape({
  * Values requiring a number, such as a length, can be specified in pixel values (e.g. `24px`), unitless values that are implicitly in pixels (`24`), or em values (e.g. `2em`).
  * Opacity values are specified as numbers ranging on `0 <= opacity <= 1`.
  * Time is measured in units of ms or s.
+ * Angles are measured in radians (e.g. `3.14rad`) or degrees (e.g. `180deg`).
 
 
 
@@ -184,8 +185,8 @@ A background image may be applied to a node's body:
 
  * **`background-image`** : The URL that points to the image that should be used as the node's background.  PNG, JPG, and SVG are supported formats.  You may use a [data URI](https://en.wikipedia.org/wiki/Data_URI_scheme) to use embedded images, thereby saving a HTTP request.
  * **`background-image-opacity`** : The opacity of the background image.
- * **`background-width`** : Specifies the width of the image.  A percent value (e.g. `50%`) may be used to set the image width relative to the node width.  If used in combination with `background-fit`, then this value overrides the width of the image in calculating the fitting &mdash; thereby overriding the aspect ratio.  The `auto` value is used by default, which uses the width of the image.
- * **`background-height`** : Specifies the height of the image.  A percent value (e.g. `50%`) may be used to set the image height relative to the node height.  If used in combination with `background-fit`, then this value overrides the height of the image in calculating the fitting &mdash; thereby overriding the aspect ratio.  The `auto` value is used by default, which uses the height of the image.
+ * **`background-width`** : Specifies the width of the image.  A percent value (e.g. `50%`) may be used to set the image width relative to the node width.  If used in combination with `background-fit`, then this value overrides the width of the image in calculating the fitting --- thereby overriding the aspect ratio.  The `auto` value is used by default, which uses the width of the image.
+ * **`background-height`** : Specifies the height of the image.  A percent value (e.g. `50%`) may be used to set the image height relative to the node height.  If used in combination with `background-fit`, then this value overrides the height of the image in calculating the fitting --- thereby overriding the aspect ratio.  The `auto` value is used by default, which uses the height of the image.
  * **`background-fit`** : How the background image is fit to the node; may be `none` for original size, `contain` to fit inside node, or `cover` to cover the node.
  * **`background-repeat`** : Whether to repeat the background image; may be `no-repeat`, `repeat-x`, `repeat-y`, or `repeat`.
  * **`background-position-x`** : The x position of the background image, measured in percent (e.g. `50%`) or pixels (e.g. `10px`).
@@ -212,7 +213,7 @@ You may find it useful to reserve a number to a particular colour for all nodes 
 These properties affect the styling of an edge's line:
 
  * **`width`** : The width of an edge's line.
- * **`curve-style`** : The curving method used to separate two or more edges between two nodes; may be [`bezier`](#style/bezier-edges) (default, bundled curved edges), [`unbundled-bezier`](#style/unbundled-bezier-edges) (curved edges for use with manual control points), [`haystack`](#style/haystack-edges) (very fast, bundled straight edges for which loops and compounds are unsupported), or [`segments`](#style/segments-edges) (a series of straight lines).  Note that `haystack` edges work best with `ellipse`, `rectangle`, or similar nodes.  Smaller node shapes, like `triangle`, will not be as aesthetically pleasing.  Also note that edge arrows are unsupported for `haystack` edges.
+ * **`curve-style`** : The curving method used to separate two or more edges between two nodes; may be [`haystack`](#style/haystack-edges) (default, very fast, bundled straight edges for which loops and compounds are unsupported), [`bezier`](#style/bezier-edges) (bundled curved edges), [`unbundled-bezier`](#style/unbundled-bezier-edges) (curved edges for use with manual control points), or [`segments`](#style/segments-edges) (a series of straight lines).  Note that `haystack` edges work best with `ellipse`, `rectangle`, or similar nodes.  Smaller node shapes, like `triangle`, will not be as aesthetically pleasing.  Also note that edge arrows are unsupported for `haystack` edges.
  * **`line-color`** : The colour of the edge's line.
  * **`line-style`** : The style of the edge's line; may be `solid`, `dotted`, or `dashed`.
 
@@ -223,7 +224,8 @@ For automatic, bundled bezier edges (`curve-style: bezier`):
 
  * **`control-point-step-size`** : From the line perpendicular from source to target, this value specifies the distance between successive bezier edges.
  * **`control-point-distance`** : A single value that overrides `control-point-step-size` with a manual value.  Because it overrides the step size, bezier edges with the same value will overlap.  Thus, it's best to use this as a one-off value for particular edges if need be.
- * **`control-point-weight`** : A single value that weights control points along the line from source to target.  The value usually ranges on [0, 1], with 0 towards the source node and 1 towards the target node &mdash; but larger or smaller values can also be used.
+ * **`control-point-weight`** : A single value that weights control points along the line from source to target.  The value usually ranges on [0, 1], with 0 towards the source node and 1 towards the target node --- but larger or smaller values can also be used.
+ * **`edge-distances`** : With value `intersection` (default), the line from source to target for `control-point-weight` is from the outside of the source node's shape to the outside of the target node's shape.  With value `node-position`, the line is from the source position to the target position.  The `node-position` option makes calculating edge points easier &emdash; but it should be used carefully because you can create invalid points that `intersection` would have automatically corrected.
 
 
 ## Unbundled bezier edges
@@ -231,7 +233,8 @@ For automatic, bundled bezier edges (`curve-style: bezier`):
 For bezier edges with manual control points (`curve-style: unbundled-bezier`):
 
 * **`control-point-distances`** : A series of values that specify for each control point the distance perpendicular to a line formed from source to target, e.g. `-20 20 -20`.
-* **`control-point-weights`** : A series of values that weights control points along a line from source to target, e.g. `0.25 0.5 0.75`.  A value usually ranges on [0, 1], with 0 towards the source node and 1 towards the target node &mdash; but larger or smaller values can also be used.
+* **`control-point-weights`** : A series of values that weights control points along a line from source to target, e.g. `0.25 0.5 0.75`.  A value usually ranges on [0, 1], with 0 towards the source node and 1 towards the target node --- but larger or smaller values can also be used.
+* **`edge-distances`** : With value `intersection` (default), the line from source to target for `control-point-weights` is from the outside of the source node's shape to the outside of the target node's shape.  With value `node-position`, the line is from the source position to the target position.  The `node-position` option makes calculating edge points easier &emdash; but it should be used carefully because you can create invalid points that `intersection` would have automatically corrected.
 
 
 ## Haystack edges
@@ -248,7 +251,8 @@ For fast, straight line edges (`curve-style: haystack`):
 For edges made of several straight lines (`curve-style: segments`):
 
 * **`segment-distances`** : A series of values that specify for each segment point the distance perpendicular to a line formed from source to target, e.g. `-20 20 -20`.
-* **`segment-weights`** : A series of values that weights segment points along a line from source to target, e.g. `0.25 0.5 0.75`.  A value usually ranges on [0, 1], with 0 towards the source node and 1 towards the target node &mdash; but larger or smaller values can also be used.
+* **`segment-weights`** : A series of values that weights segment points along a line from source to target, e.g. `0.25 0.5 0.75`.  A value usually ranges on [0, 1], with 0 towards the source node and 1 towards the target node --- but larger or smaller values can also be used.
+* **`edge-distances`** : With value `intersection` (default), the line from source to target for `segment-weights` is from the outside of the source node's shape to the outside of the target node's shape.  With value `node-position`, the line is from the source position to the target position.  The `node-position` option makes calculating edge points easier &emdash; but it should be used carefully because you can create invalid points that `intersection` would have automatically corrected.
 
 
 ## Edge arrow
@@ -272,16 +276,25 @@ Only mid arrows are supported on haystack edges.
 * **`display`** : Whether to display the element; may be `element` for displayed or `none` for not displayed.  Note that a `display: none` bezier edge does not take up space in its bundle.
 * **`visibility`** : Whether the element is visible; may be `visible` or `hidden`.  Note that a `visibility: hidden` bezier edge still takes up space in its bundle.
 * **`opacity`** : The opacity of the element, ranging from 0 to 1.  Note that the opacity of a compound node parent affects the effective opacity of its children.
-* **`z-index`** : An integer value that affects the relative draw order of elements.  In general, an element with a higher `z-index` will be drawn on top of an element with a lower `z-index`.  Note that edges are under nodes despite `z-index`, except when necessary for compound nodes.
 
+Elements are drawn in a specific order based on compound depth (low to high), the element type (typically nodes above edges), and z-index (low to high).  These styles affect the ordering:
+
+* **`z-compound-depth`** : May be `bottom` | `orphan` | `auto` (default) | `top`.  The first drawn is `bottom`, the second is `orphan`, which is the same depth as the root of the compound graph, followed by the default of `auto` which draws in depth order from root to leaves of the compound graph.  The last drawn is `top`.
+* **`z-index-compare`**: May be `auto` (default) | `manual`.  The setting `auto` will always draws edges under nodes, whereas `manual` ignores this convention and draws based on the `z-index` value setting. 
+* **`z-index`** : An integer value that affects the relative draw order of elements.  In general, an element with a higher `z-index` will be drawn on top of an element with a lower `z-index` within the same depth.
 
 
 ## Labels
 
+Label text:
+
+ * **`label`** : The text to display for an element's label.
+ * **`source-label`** : The text to display for an edge's source label.
+ * **`target-label`** : The text to display for an edge's target label.
+
 Basic font styling:
 
  * **`color`** :  The colour of the element's label.
- * **`label`** : The text to display for an element's label.
  * **`text-opacity`** : The opacity of the label text, including its outline.
  * **`font-family`** : A [comma-separated list of font names](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family) to use on the label text.
  * **`font-size`** : The size of the label text.
@@ -299,9 +312,29 @@ Node label alignment:
  * **`text-halign`** : The vertical alignment of a node's label; may have value `left`, `center`, or `right`.
  * **`text-valign`** : The vertical alignment of a node's label; may have value `top`, `center`, or `bottom`.
 
+Edge label alignment:
+
+ * **`source-text-offset`** : For the source label of an edge, how far from the source node the label should be placed.
+ * **`target-text-offset`** : For the target label of an edge, how far from the target node the label should be placed.
+
+Margins:
+
+ * **`text-margin-x`** : A margin that shifts the label along the x-axis.
+ * **`text-margin-y`** : A margin that shifts the label along the y-axis.
+ * **`source-text-margin-x`** : (For the source label of an edge.)
+ * **`source-text-margin-y`** : (For the source label of an edge.)
+ * **`target-text-margin-x`** : (For the target label of an edge.)
+ * **`target-text-margin-y`** : (For the target label of an edge.)
+
 Rotating text:
 
- * **`edge-text-rotation`** : Whether to rotate edge labels as the relative angle of an edge changes; may be `none` for page-aligned labels or `autorotate` for edge-aligned labels.  This works best with left-to-right text.
+ * **`text-rotation`** : A rotation angle that is applied to the label.
+  * For edges, the special value `autorotate` can be used to align the label to the edge.
+  * For nodes, the label is rotated along its anchor point on the node, so a label margin may help for some usecases.
+  * The special value `none` can be used to denote `0deg`.
+  * Rotations works best with left-to-right text.
+ * **`source-text-rotation`** : (For the source label of an edge.)
+ * **`target-text-rotation`** : (For the target label of an edge.)
 
 Outline:
 
@@ -332,7 +365,7 @@ Border:
 
 Interactivity:
 
- * **`min-zoomed-font-size`** : If zooming makes the effective font size of the label smaller than this, then no label is shown.
+ * **`min-zoomed-font-size`** : If zooming makes the effective font size of the label smaller than this, then no label is shown.  Note that because of performance optimisations, the label may be shown at font sizes slightly smaller than this value.  This effect is more pronounced at larger screen pixel ratios.  However, it is guaranteed that the label will be shown at sizes equal to or greater than the value specified.
  * **`text-events`** : Whether events should occur on an element if the label receives an event; may be `yes` or `no`.  You may want a style applied to the text on `:active` so you know the text is activatable.
 
 
