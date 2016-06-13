@@ -17,7 +17,7 @@ var zIndexSort = function( a, b ){
   var hasCompoundNodes = cy.hasCompoundNodes();
 
   function getDepth(ele){
-    var style = ele.pstyle( 'z-compound-depth' );
+    var style = ele._private.style[ 'z-compound-depth' ];
     if ( style.value === 'auto' ){
       return hasCompoundNodes ? ele.zDepth() : 0
     } else if ( style.value === 'bottom' ){
@@ -34,7 +34,7 @@ var zIndexSort = function( a, b ){
   }
 
   function getEleDepth(ele){
-    var style = ele.pstyle( 'z-index-compare' );
+    var style = ele._private.style[ 'z-index-compare' ];
     if ( style.value === 'auto' ){
       return ele.isNode() ? 1 : 0
     }
@@ -46,12 +46,12 @@ var zIndexSort = function( a, b ){
     return eleDiff
   }
 
-  var zDiff = a.pstyle( 'z-index' ).value - b.pstyle( 'z-index' ).value;
+  var zDiff = a._private.style[ 'z-index' ].value - b._private.style[ 'z-index' ].value;
   if ( zDiff !== 0 ){
     return zDiff
   }
   // compare indices in the core (order added to graph w/ last on top)
-  return a.poolIndex() - b.poolIndex();
+  return a._private.index - b._private.index;
 };
 
 module.exports = zIndexSort;
